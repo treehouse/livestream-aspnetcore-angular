@@ -1,0 +1,16 @@
+
+<h1>
+  {{title}}
+</h1>
+
+<h2>
+  ASP.NET Core is cool :)
+</h2>
+
+<ul>
+  <li *ngFor="let videoGame of videoGames">
+    Title: {{videoGame.title}}
+  </li>
+</ul>
+
+<button (click)="loadVideoGames()">Get Video Games</button>
