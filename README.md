@@ -6,7 +6,7 @@ In this series of livestream sessions, Treehouse teacher James Churchill ([@Smas
 Watch the videos on YouTube at:
 
 * Week 1 (5/19/2017): [https://www.youtube.com/watch?v=hZDqJJ5tZeg](https://www.youtube.com/watch?v=hZDqJJ5tZeg)
-* Week 2 (7/28/2017): [https://www.youtube.com/watch?v=hZDqJJ5tZeg](https://www.youtube.com/watch?v=hZDqJJ5tZeg)
+* Week 2 (7/28/2017): [https://www.youtube.com/watch?v=wCMOoeSHgQg](https://www.youtube.com/watch?v=wCMOoeSHgQg)
 * Week 3 (8/4/2017): TBD
 * Week 4 (8/11/2017): TBD
 
