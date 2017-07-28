@@ -3,6 +3,7 @@
 
 ## Documentation
 
+* [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 * [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
 * [Angular](https://angular.io/)
 * [Angular CLI](https://cli.angular.io/)
