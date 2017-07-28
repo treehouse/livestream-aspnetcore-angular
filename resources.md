@@ -3,10 +3,18 @@
 
 ## Documentation
 
+### .NET Core and ASP.NET Core
+
 * [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/)
-* [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
-* [Angular](https://angular.io/)
-* [Angular CLI](https://cli.angular.io/)
+* [ASP.NET Core Docs](https://docs.microsoft.com/en-us/aspnet/core/)
+* [Enabling Cross-Origin Requests (CORS)](https://docs.microsoft.com/en-us/aspnet/core/security/cors)
+
+### Angular
+
+* [Docs](https://angular.io/)
+* [CLI](https://cli.angular.io/)
+* [Routing and Navigation](https://angular.io/guide/router)
+* [Template-driven Forms](https://angular.io/guide/forms)
 
 ## Downloads
 
