@@ -1,5 +1,5 @@
 
-# Treehouse Live Coding - ASP.NET Core and Angular
+# Treehouse LiveCoding - ASP.NET Core and Angular
 
 In this series of livestream sessions, Treehouse teacher James Churchill ([@SmashDev](https://twitter.com/SmashDev)) builds a simple ASP.NET Core web API and Angular client web app.
 
