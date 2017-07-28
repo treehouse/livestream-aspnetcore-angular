@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp
 {
@@ -27,6 +29,9 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Enable CORS.
+            services.AddCors();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -47,8 +52,14 @@ namespace WebApp
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
             app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.UseCors(builder => 
+                builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 
             app.UseMvc(routes =>
             {

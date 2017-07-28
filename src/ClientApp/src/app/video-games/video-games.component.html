@@ -1,0 +1,12 @@
+
+<h1>
+  {{title}}
+</h1>
+
+<div>
+  <div *ngFor="let videoGame of videoGames">
+    <h2>{{videoGame.title}} ({{videoGame.platform}})</h2>
+    <h5>Published On: {{videoGame.publishedOn | date:'M/d/y'}}</h5>
+    <hr/>
+  </div>
+</div>
