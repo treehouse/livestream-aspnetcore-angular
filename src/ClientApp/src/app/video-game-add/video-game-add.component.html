@@ -15,7 +15,10 @@
 
   <div>
     <label for="platform">Platform:</label>
-    <input id="platform" name="platform" type="text" [(ngModel)]="model.platform" />
+    <select id="platform" name="platform" [(ngModel)]="model.platformId">
+      <option value=""></option>
+      <option *ngFor="let platform of platforms" [ngValue]="platform.id">{{ platform.name }}</option>
+    </select>
   </div>
 
   <button type="submit">Add Video Game</button>

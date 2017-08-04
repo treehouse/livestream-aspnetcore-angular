@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
+import 'rxjs/add/operator/map';
 
 class VideoGame {
   id: number;
   title: string;
   publishedOn: Date;
-  platform: string
+  platformId: number
+}
+
+class Platform {
+  id: number;
+  name: string;
 }
 
 @Component({
@@ -16,11 +22,19 @@ class VideoGame {
 })
 export class VideoGameAddComponent implements OnInit {
   model: VideoGame;
+  platforms: Platform[];
 
   constructor(private http: Http, private router: Router) { }
 
   ngOnInit() {
     this.model = new VideoGame();
+
+    this.http.get("http://localhost:5000/api/platforms")
+      .map((res: Response) => res.json())
+      .subscribe(data => {
+        console.log(data);
+        this.platforms = data;
+      });
   }
 
   onSubmit() {
@@ -29,5 +43,4 @@ export class VideoGameAddComponent implements OnInit {
         this.router.navigate(['/videogames']);
       });
   }
-
 }
