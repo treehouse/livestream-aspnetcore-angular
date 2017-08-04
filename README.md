@@ -7,7 +7,7 @@ Watch the videos on YouTube at:
 
 * Week 1 (5/19/2017): [https://www.youtube.com/watch?v=hZDqJJ5tZeg](https://www.youtube.com/watch?v=hZDqJJ5tZeg)
 * Week 2 (7/28/2017): [https://www.youtube.com/watch?v=wCMOoeSHgQg](https://www.youtube.com/watch?v=wCMOoeSHgQg)
-* Week 3 (8/4/2017): TBD
+* Week 3 (8/4/2017): [https://www.youtube.com/watch?v=JPPpbJ6fwKY](https://www.youtube.com/watch?v=JPPpbJ6fwKY)
 * Week 4 (8/11/2017): TBD
 
 ## Application Overview
@@ -95,6 +95,129 @@ ng serve
 Now you can make a change to the ASP.NET Core project and the `dotnet watch` command will stop the server, recompile your project, and restart the server. Correspondingly, making a change to the Angular project will cause the `ng serve` command to compile and package your project, then refresh the app in the browser.
 
 This change vastly improves our development workflow by reducing the amount of repetitive work we have to do when making a change to our app.
+
+## Week 3 (8/4/2017) Notes
+
+* Reviewed options for configuring CORS in our ASP.NET Core application
+* Changed the "Platform" field in our Angular form to be a select list
+* Added a "Platforms" resource/endpoint to our ASP.NET Core API
+* Added an editorconfig file to our ASP.NET Core project
+* Added Entity Framework Core to our ASP.NET Core project in order to enable data persistence to a SQLite database
+* Added a DbInitializer class to seed our database
+
+### Options for Configuring CORS
+
+In the prevous livestream, I thrashed a bit to get CORS configured properly. Totally my fault for not carefully reading the docs :(
+
+[https://docs.microsoft.com/en-us/aspnet/core/security/cors](https://docs.microsoft.com/en-us/aspnet/core/security/cors)
+
+There are two approaches that you can use:
+
+1) Add the CORS services and define your policy in the CORS middleware.
+2) Or define one or more policies when you add the CORS services and then apply those policies at the middleware, controller, or controller action level. 
+
+#### Define One Global Policy
+
+In the `Startup.cs` file, add the CORS services in the `ConfigureServices` method.
+
+```
+services.AddCors();
+```
+
+And in the `Configure` method, add the CORS middleware (before the MVC middleware is added to your pipeline) and define your single, global policy.
+
+```
+app.UseCors(builder => 
+    builder
+        .WithOrigins("http://localhost:4200") // Add any domains that need access
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Home}/{action=Index}/{id?}");
+});
+```
+
+Following this approach means that your CORS policy will be applied to every request/response.
+
+#### Define One (or More) Policies
+
+In the `Startup.cs` file, define one or more policies when you add the CORS services.
+
+```
+services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .WithOrigins("http://localhost:4200") // Add any domains that need access
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});			
+```
+
+Then apply a policy using one the following approaches:
+
+1) To your entire application by supplying the policy name to the CORS middleware.
+
+```
+app.UseCors("CorsPolicy");
+
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Home}/{action=Index}/{id?}");
+});
+```
+
+2) To specific action methods or controllers using the EnableCors attribute.
+
+Apply the attribute to the controller class if you want to apply the CORS policy to every action method.
+
+```
+[Route("api/[controller]")]
+[EnableCors("CorsPolicy")]
+public class VideoGamesController : Controller
+{
+    [HttpGet]
+    public IActionResult Get()
+    {
+        ...
+    }
+
+    ...
+}
+```
+
+Or to just a single action method if you only want to apply the CORS policy selectively.
+
+```
+[Route("api/[controller]")]
+public class VideoGamesController : Controller
+{
+    [HttpGet]
+    [EnableCors("CorsPolicy")]
+    public IActionResult Get()
+    {
+        ...
+    }
+
+    ...
+}
+```
+
+3) To every controller in your application by configuring MVC options.
+
+```
+services.AddMvc();
+services.Configure<MvcOptions>(options =>
+{
+    options.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy"));
+});
+```
 
 ## Resources
 

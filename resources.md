@@ -9,6 +9,12 @@
 * [ASP.NET Core Docs](https://docs.microsoft.com/en-us/aspnet/core/)
 * [Enabling Cross-Origin Requests (CORS)](https://docs.microsoft.com/en-us/aspnet/core/security/cors)
 
+### Entity Framework Core
+
+* [EF Core Docs](https://docs.microsoft.com/en-us/ef/core/)
+* [ConnectionStrings.com](https://www.connectionstrings.com/)
+* [DB Browser for SQLite](http://sqlitebrowser.org/)
+
 ### Angular
 
 * [Docs](https://angular.io/)
