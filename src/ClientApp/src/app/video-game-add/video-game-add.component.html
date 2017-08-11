@@ -1,27 +1,42 @@
 
 <h1>Add Video Game</h1>
 
-<form (submit)="onSubmit()">
+<form (submit)="onSubmit()" #videoGameForm="ngForm">
 
   <div>
     <label for="title">Title:</label>
-    <input id="title" name="title" type="text" [(ngModel)]="model.title" />
+    <input id="title" name="title" type="text" [(ngModel)]="model.title" required #title="ngModel" />
+    <div *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div>
+        Title is required.
+      </div>
+    </div>
   </div>
 
   <div>
     <label for="publishedOn">Published On:</label>
-    <input id="publishedOn" name="publishedOn" type="date" [(ngModel)]="model.publishedOn" />
+    <input id="publishedOn" name="publishedOn" type="date" [(ngModel)]="model.publishedOn" required #publishedOn="ngModel" />
+    <div *ngIf="publishedOn.invalid && (publishedOn.dirty || publishedOn.touched)">
+      <div>
+        Published On is required.
+      </div>
+    </div>
   </div>
 
   <div>
     <label for="platform">Platform:</label>
-    <select id="platform" name="platform" [(ngModel)]="model.platformId">
+    <select id="platform" name="platform" [(ngModel)]="model.platformId" required #platform="ngModel">
       <option value=""></option>
       <option *ngFor="let platform of platforms" [ngValue]="platform.id">{{ platform.name }}</option>
     </select>
+    <div *ngIf="platform.invalid && (platform.dirty || platform.touched)">
+      <div>
+        Platform is required.
+      </div>
+    </div>
   </div>
 
-  <button type="submit">Add Video Game</button>
+  <button type="submit" [disabled]="!videoGameForm.form.valid">Add Video Game</button>
 
   <pre>{{model | json}}</pre>
 

@@ -34,7 +34,9 @@ namespace WebApp
         {
             services.AddDbContext<Context>(options => 
             {
-                options.UseSqlite("Filename=./VideoGames.db");
+                options.UseSqlServer(Configuration.GetConnectionString("VideoGamesDatabase"));
+                
+                // options.UseSqlite("Filename=./VideoGames.db");
             });
 
             // Adding the CORS services.
@@ -53,6 +55,7 @@ namespace WebApp
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            var logger = loggerFactory.CreateLogger("Startup.Configure");
 
             if (env.IsDevelopment())
             {
@@ -82,6 +85,7 @@ namespace WebApp
 
             if (env.IsDevelopment())
             {
+                logger.LogInformation("Calling Context.Initialize() method.");
                 context.Initialize();
             }
         }

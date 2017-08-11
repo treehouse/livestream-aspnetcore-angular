@@ -7,6 +7,7 @@ using WebApp.Models;
 using Microsoft.AspNetCore.Cors;
 using WebApp.Data;
 using Microsoft.EntityFrameworkCore;
+using WebApp.DTOs;
 
 namespace WebApp.ApiControllers
 {
@@ -49,12 +50,25 @@ namespace WebApp.ApiControllers
 
         // POST
         [HttpPost]
-        public IActionResult Post([FromBody] VideoGame videoGame)
+        public IActionResult Post([FromBody] VideoGameDTO videoGameDTO)
         {
-            if (videoGame == null)
+            if (videoGameDTO == null)
             {
                 return BadRequest();
             }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // TODO Switch to using Automapper
+            var videoGame = new VideoGame()
+            {
+                Title = videoGameDTO.Title,
+                PublishedOn = videoGameDTO.PublishedOn.Value,
+                PlatformId = videoGameDTO.PlatformId.Value
+            };
 
             _context.VideoGames.Add(videoGame);
             _context.SaveChanges();

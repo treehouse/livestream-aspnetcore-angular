@@ -8,8 +8,6 @@ namespace WebApp.Data
     {
         public static void Initialize(this Context context)
         {
-            context.Database.EnsureCreated();
-
             var platform1 = new Platform() { Id = 1, Name = "N64" };
             var platform2 = new Platform() { Id = 2, Name = "GameCube" };
             var platform3 = new Platform() { Id = 3, Name = "Wii" };
@@ -21,7 +19,7 @@ namespace WebApp.Data
             var platform9 = new Platform() { Id = 9, Name = "PlayStation 4" };
             var platform10 = new Platform() { Id = 10, Name = "Xbox" };
             var platform11 = new Platform() { Id = 11, Name = "Xbox 360" };
-            var platform12 = new Platform() { Id = 12, Name = "Xbox On" };
+            var platform12 = new Platform() { Id = 12, Name = "Xbox One" };
 
             AddPlatforms(context, 
                 platform1,
