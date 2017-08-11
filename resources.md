@@ -8,12 +8,19 @@
 * [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 * [ASP.NET Core Docs](https://docs.microsoft.com/en-us/aspnet/core/)
 * [Enabling Cross-Origin Requests (CORS)](https://docs.microsoft.com/en-us/aspnet/core/security/cors)
+* [AutoMapper](https://github.com/AutoMapper/AutoMapper/wiki/Getting-started)
 
 ### Entity Framework Core
 
 * [EF Core Docs](https://docs.microsoft.com/en-us/ef/core/)
 * [ConnectionStrings.com](https://www.connectionstrings.com/)
 * [DB Browser for SQLite](http://sqlitebrowser.org/)
+* [Database Providers](https://docs.microsoft.com/en-us/ef/core/providers/)
+
+### SQL Server
+
+* [Run the SQL Server 2017 container image with Docker](https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker)
+* [sql-cli](https://www.npmjs.com/package/sql-cli)
 
 ### Angular
 

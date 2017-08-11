@@ -8,7 +8,7 @@ Watch the videos on YouTube at:
 * Week 1 (5/19/2017): [https://www.youtube.com/watch?v=hZDqJJ5tZeg](https://www.youtube.com/watch?v=hZDqJJ5tZeg)
 * Week 2 (7/28/2017): [https://www.youtube.com/watch?v=wCMOoeSHgQg](https://www.youtube.com/watch?v=wCMOoeSHgQg)
 * Week 3 (8/4/2017): [https://www.youtube.com/watch?v=JPPpbJ6fwKY](https://www.youtube.com/watch?v=JPPpbJ6fwKY)
-* Week 4 (8/11/2017): TBD
+* Week 4 (8/11/2017): [https://www.youtube.com/watch?v=FIamyAGtWRQ](https://www.youtube.com/watch?v=FIamyAGtWRQ)
 
 ## Application Overview
 
@@ -217,6 +217,118 @@ services.Configure<MvcOptions>(options =>
 {
     options.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy"));
 });
+```
+
+## Week 4 (8/11/2017) Notes
+
+* Switched to using EF Migrations
+  * Debugged an issue with the `ASPNETCORE_ENVIRONMENT` variable not being set to the value `Development` when running from the terminal
+* Added client-side validation
+  * Added HTML5 input validation attributes
+  * Added additional HTML markup and Angular template bindings to display validation messages and to disable "Add Video Game" if the form is in an invalid state
+* Switched backend database to SQL Server on Linux running in a Docker container
+* Added server-side validation
+* Switched to using a DTO (data transfer object) for the API's POST method
+* Refined our database schema by adding `[Required]` data annotation attributes to the Platform and VideoGame model classes
+
+### Debugging in VS Code
+
+In this LiveCoding session, I attempted to run our application using the Visual Studio Code debugger, only to discover that the debugger wasn't working, even though it had the previous week.
+
+Searching online, I discovered this commit that was done (within the last week) to the OmniSharp VS Code debugger:
+
+[https://github.com/OmniSharp/omnisharp-vscode/commit/26508b3b3a27b42e6fc1c5883948686723385007](https://github.com/OmniSharp/omnisharp-vscode/commit/26508b3b3a27b42e6fc1c5883948686723385007)
+
+**Bottom line: the VS Code debugger no longer supports anything less than macOS 10.12 (Sierra) in order to prepare for the release of .NET 2.0.**
+
+### Setting Environment Variables
+
+Setting environment variables from the terminal is easy to do.
+
+On Windows... `set ASPNETCORE_ENVIRONMENT=Development`  
+On Linux/macOS... `export ASPNETCORE_ENVIRONMENT=Development`
+
+Also, when you execute the `dotnet run` command, you're told right in the console what environment you're currently running in!
+
+```
+Hosting environment: Production
+Content root path: /Users/jameschurchill/Documents/GitHub/livestream-aspnetcore-angular/src/WebApp
+Now listening on: http://localhost:5000
+Application started. Press Ctrl+C to shut down.
+```
+
+So, all that I had to do in order to avoid my confusion with why my calls to `env.IsDevelopment()` were failing was to read the console output when I was starting my app :)
+
+### Logging to the Console
+
+When I couldn't get the debugger to start in VS Code, I could have added some logging statements to my `Startup.Configure` method in order to determine what code was executing or not.
+
+To get an instance of a logger...
+
+```
+var logger = loggerFactory.CreateLogger("Startup.Configure");`
+```
+
+And to use that logger to log a message...
+
+```
+if (env.IsDevelopment())
+{
+    logger.LogInformation("Calling Context.Initialize() method.");
+    context.Initialize();
+}
+```
+
+The logging story in ASP.NET Core is actually pretty great. For more information, check out this page on the docs:
+
+[Introduction to Logging in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging?tabs=aspnetcore1x)
+
+### Database Connection String
+
+Instead of hardcoding my database connection string (which contained my database's SA account password), I should have used the Secret Manager tool, which was designed for this specific kind of scenario.
+
+[https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets)
+
+At a minimum, I should have moved my database connection string into the `appsettings.Development.json` file, so it could be overriden in production with the correct database connection string.
+
+__appsettings.json__
+
+```
+{
+    "ConnectionStrings": {
+    "VideoGamesDatabase": "Server=localhost;Database=VideoGames;Trusted_Connection=True;"
+    },
+    "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+        "Default": "Warning"
+    }
+    }
+}		
+```
+
+__appsettings.Development.json__
+
+```
+{
+    "ConnectionStrings": {
+    "VideoGamesDatabase": "Server=localhost;Database=VideoGames;User Id=sa;Password=<YourStrongPassword>"
+    },
+    "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+        "Default": "Debug",
+        "System": "Information",
+        "Microsoft": "Information"
+    }
+    }
+}
+```
+
+Then use the `Configuration.GetConnectionString` method to retrieve the database connection string from configuration.
+
+```
+options.UseSqlServer(Configuration.GetConnectionString("VideoGamesDatabase"));
 ```
 
 ## Resources
